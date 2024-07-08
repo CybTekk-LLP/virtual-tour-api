@@ -6,7 +6,7 @@ import {
   ExpressErrorHandler,
   corsConfig,
   // createAdminUser,
-  userDeserializer,
+  // userDeserializer,
 } from "@/interfaces/middleware";
 import cors from "cors";
 import { UPLOADS_PATH } from "./env.config";
@@ -25,11 +25,10 @@ export class Server {
     this.app = express();
     this.app.use(express.json());
 
-    this.app.use(userDeserializer);
+    // this.app.use(userDeserializer);
     this.app.use(cors(corsConfig));
 
-    this.app.use("/api/uploads", express.static(UPLOADS_PATH));
-    // this.app.use('/api', appRouter);
+    // this.app.use("/api/uploads", express.static(UPLOADS_PATH));
 
     this.app.use(ExpressErrorHandler);
   }
