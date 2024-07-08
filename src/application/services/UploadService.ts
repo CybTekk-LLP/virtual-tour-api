@@ -6,11 +6,7 @@ import { PathLike } from "fs";
 import { promises as fs } from "fs";
 import { UPLOADS_PATH } from "@/config";
 
-const blobServiceClient = new BlobServiceClient(
-  `https://${ACCOUNT_NAME}.blob.core.windows.net/?${SAS_TOKEN}`
-);
 
-const containerClient = blobServiceClient.getContainerClient(CONTAINER_NAME);
 
 async function createDirIfNotExists(directory: PathLike) {
   fs.access(directory).catch(() => {

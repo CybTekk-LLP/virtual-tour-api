@@ -1,7 +1,6 @@
 import { AppDataSource } from "@/infrastructure";
 import express from "express";
 import { Logger } from "./logger";
-// import { appRouter } from '@/interfaces/routers';
 import {
   ExpressErrorHandler,
   corsConfig,
@@ -10,6 +9,7 @@ import {
 } from "@/interfaces/middleware";
 import cors from "cors";
 import { UPLOADS_PATH } from "./env.config";
+import { appRouter } from "@/interfaces/routers";
 
 export type AppConfig = {
   port?: number | string;
@@ -28,8 +28,8 @@ export class Server {
     // this.app.use(userDeserializer);
     this.app.use(cors(corsConfig));
 
-    // this.app.use("/api/uploads", express.static(UPLOADS_PATH));
-
+    this.app.use("/api/uploads", express.static(UPLOADS_PATH));
+    this.app.use("/api", appRouter);
     this.app.use(ExpressErrorHandler);
   }
   private connectDatabase() {
