@@ -21,10 +21,11 @@ export class UploadsController {
       blobServiceClient.getContainerClient(CONTAINER_NAME);
 
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+    
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const fileStream = fs.createReadStream(req.file.path);
-    const streamUpload = await blockBlobClient.uploadStream(
+    await blockBlobClient.uploadStream(
       fileStream,
       undefined,
       undefined,
@@ -32,7 +33,6 @@ export class UploadsController {
       // @ts-ignore
       { blobHTTPHeaders: { blobContentType: req.file.mimeType } }
     );
-    console.log(streamUpload);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     res.json({ uri: `/api/uploads/images/${req.file.filename}` });
