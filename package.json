@@ -4,7 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "node --watch --experimental-specifier-resolution=node --loader ./scripts/loader.js ./src/app.ts | pino-pretty",
+    "format": "prettier --plugin-search-dir . --write .",
+    "typeorm": "node --experimental-specifier-resolution=node --loader ./scripts/loader.js scripts/typeorm.custom-cli.ts ",
+    "generate-migrations": "npm run typeorm migration:generate -- ./src/infrastructure/migrations/migration -d ./src/infrastructure/database.config.ts",
+    "migrate": "npm run typeorm migration:run -- -d ./src/infrastructure/database.config.ts",
+    "generate-and-migrate": "npm run generate-migrations; npm run migrate",
+    "build": "tsc --project .; resolve-tspaths; fix-esm-import-path dist",
+    "start": "npm run migrate; cd dist; node ./app.js;",
+    "generate-docs": "node ./dist/swagger.js"
   },
   "author": "Shubhcyb2611",
   "license": "ISC",
@@ -14,6 +22,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "path": "^0.12.7",
-    "pino": "^9.2.0"
+    "pino": "^9.2.0",
+    "typeorm": "^0.3.20"
   }
 }
