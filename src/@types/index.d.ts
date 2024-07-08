@@ -1,12 +1,12 @@
-import { User } from '@/domain/entities';
+import { User } from "@/domain/entities";
 
 declare global {
-    namespace Express {
-        interface IUser extends User {}
+  namespace Express {
+    interface IUser extends User {}
 
-        interface Request {
-            user?: IUser;
-            rawBody: Buffer;
-        }
+    interface Request {
+      user?: IUser;
+      rawBody: Buffer;
     }
+  }
 }

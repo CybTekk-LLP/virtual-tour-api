@@ -5,7 +5,7 @@ import { Logger } from "./logger";
 import {
   ExpressErrorHandler,
   corsConfig,
-  createAdminUser,
+  // createAdminUser,
   userDeserializer,
 } from "@/interfaces/middleware";
 import cors from "cors";
@@ -37,7 +37,7 @@ export class Server {
     AppDataSource.initialize()
       .then(() => {
         Logger.info("🤠: Database connection instantiated");
-        createAdminUser();
+        // createAdminUser();
       })
       .catch((e) => {
         Logger.error(e);
