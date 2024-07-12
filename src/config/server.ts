@@ -1,12 +1,7 @@
 import { AppDataSource } from "@/infrastructure";
 import express from "express";
 import { Logger } from "./logger";
-import {
-  ExpressErrorHandler,
-  corsConfig,
-  // createAdminUser,
-  // userDeserializer,
-} from "@/interfaces/middleware";
+import { ExpressErrorHandler, corsConfig } from "@/interfaces/middleware";
 import cors from "cors";
 import { UPLOADS_PATH } from "./env.config";
 import { appRouter } from "@/interfaces/routers";
@@ -24,8 +19,6 @@ export class Server {
 
     this.app = express();
     this.app.use(express.json());
-
-    // this.app.use(userDeserializer);
     this.app.use(cors(corsConfig));
 
     this.app.use("/api/uploads", express.static(UPLOADS_PATH));
@@ -36,7 +29,6 @@ export class Server {
     AppDataSource.initialize()
       .then(() => {
         Logger.info("🤠: Database connection instantiated");
-        // createAdminUser();
       })
       .catch((e) => {
         Logger.error(e);
