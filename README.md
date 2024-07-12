@@ -1,5 +1,4 @@
-# virtual-tour-api
-Here's a README file for your project that includes a description, setup instructions, and usage information:
+Sure! Here's an updated version of the README file including the information about using Multer for file uploads:
 
 ---
 
@@ -40,7 +39,7 @@ A brief description of what this project does and who it's for.
 4. **Build and start the server:**
    ```bash
    npm run build
-   npm start
+   npm run dev
    ```
 
 ## Usage
@@ -49,16 +48,10 @@ A brief description of what this project does and who it's for.
 
 To start the server, run:
 ```bash
-npm start
+npm run dev
 ```
 The server will start on the port specified in the configuration (default is `1209`).
 
-### Example Request
-
-You can use tools like `curl` or Postman to interact with the API. Here's an example of how to upload an image:
-```bash
-curl -F "file=@/path/to/your/image.jpg" http://localhost:1209/api/uploads/images
-```
 
 ## Configuration
 
@@ -74,13 +67,36 @@ curl -F "file=@/path/to/your/image.jpg" http://localhost:1209/api/uploads/images
 ## Endpoints
 
 ### Uploads
-- `POST /api/uploads/images`: Uploads a new image to Azure Blob Storage and returns the URI.
+- `POST /api/uploads/images`: Uploads a new image to Azure Blob Storage using Multer and returns the URI.
 
 ### Static Files
 - `GET /api/uploads/*`: Serves static files from the uploads directory.
 
-### Docs
-- `GET /api/docs`: Serves API documentation.
+## Middleware
+
+### Multer
+Multer is used for handling file uploads. It is configured to handle image uploads and store them in the specified `UPLOADS_PATH`.
+
+Here is an example of how Multer is set up in the server:
+
+```javascript
+import multer from 'multer';
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, UPLOADS_PATH);
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage });
+
+app.post('/api/uploads/images', upload.single('file'), (req, res) => {
+  // Handle the uploaded file here
+});
+```
 
 ## Error Handling
 
@@ -90,16 +106,3 @@ The server uses a centralized error handling middleware `ExpressErrorHandler`. E
 
 The server uses a custom `Logger` for logging information and errors. Logs include information about server startup, database connections, and errors.
 
-## License
-
-Add your license information here.
-
-## Contact
-
-Your Name - [your-email@example.com](mailto:your-email@example.com)
-
-Project Link: [https://github.com/your-repo/project-name](https://github.com/your-repo/project-name)
-
----
-
-This README provides an overview of the project, setup instructions, and details about how to use the provided endpoints. Feel free to customize it further based on your project's specific requirements.
